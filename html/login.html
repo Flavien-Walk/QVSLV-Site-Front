@@ -1,494 +1,120 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QVSLV - Connexion</title>
-    <link rel="icon" type="image/png" href="assets/accueil/favicon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles/login.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QVSLV - Connexion</title>
+  <link rel="icon" href="assets/accueil/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/login.css">
 </head>
 <body>
-    <!-- Particules d'arrière-plan -->
-    <div class="particles" id="particles"></div>
-    
-    <!-- Cadre décoratif du site -->
-    <div class="site-frame">
-        <div class="frame-corner top-left"></div>
-        <div class="frame-corner top-right"></div>
-        <div class="frame-corner bottom-left"></div>
-        <div class="frame-corner bottom-right"></div>
-        <div class="frame-border top"></div>
-        <div class="frame-border bottom"></div>
-        <div class="frame-border left"></div>
-        <div class="frame-border right"></div>
-    </div>
+  <div class="particles" id="particles"></div>
 
-    <!-- Conteneur principal -->
-    <div class="container">
-        <!-- Header minimal -->
-        <header class="header">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-container">
-                        <img src="assets/accueil/logo.png" alt="QVSLV Logo" class="logo-image">
-                        <div class="logo-text">
-                            <h1 class="glitch" data-text="QVSLV">QVSLV</h1>
-                            <span class="tagline">Archives & Documentation</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <nav class="back-nav">
-                    <a href="/index.html" class="nav-link">← Retour à l'accueil</a>
-                </nav>
+  <div class="site-frame">
+    <div class="frame-corner top-left"></div>
+    <div class="frame-corner top-right"></div>
+    <div class="frame-corner bottom-left"></div>
+    <div class="frame-corner bottom-right"></div>
+    <div class="frame-border top"></div>
+    <div class="frame-border bottom"></div>
+    <div class="frame-border left"></div>
+    <div class="frame-border right"></div>
+  </div>
+
+  <div class="container">
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <div class="logo-container">
+            <img src="assets/accueil/logo.png" alt="QVSLV Logo" class="logo-image">
+            <div class="logo-text">
+              <h1 class="glitch" data-text="QVSLV">QVSLV</h1>
+              <span class="tagline">Archives & Documentation</span>
             </div>
-        </header>
+          </div>
+        </div>
+        <nav class="back-nav">
+          <a href="/index.html" class="nav-link">← Retour à l'accueil</a>
+        </nav>
+      </div>
+    </header>
 
-        <!-- Formulaire de connexion -->
-        <main class="login-main">
-            <div class="login-container">
-                <div class="login-header">
-                    <h2>Accès Sécurisé</h2>
-                    <p class="login-subtitle">Authentifiez-vous pour accéder aux archives classifiées</p>
-                    <div class="security-indicator">
-                        <span class="security-dot"></span>
-                        <span class="security-text">Connexion chiffrée</span>
-                    </div>
-                </div>
+    <main class="login-main">
+      <div class="login-container">
+        <div class="login-header">
+          <h2>Accès Sécurisé</h2>
+          <p class="login-subtitle">Authentifiez-vous pour accéder aux archives classifiées</p>
+          <div class="security-indicator">
+            <span class="security-dot"></span>
+            <span class="security-text">Connexion chiffrée</span>
+          </div>
+        </div>
 
-                <form class="login-form" id="loginForm">
-                    <div class="form-group">
-                        <label for="username">Nom d'agent</label>
-                        <div class="input-container">
-                            <span class="input-icon">👤</span>
-                            <input type="text" id="username" name="username" placeholder="Entrez votre nom d'agent" required autocomplete="username">
-                            <div class="input-glow"></div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password">Code d'accès</label>
-                        <div class="input-container">
-                            <span class="input-icon">🔐</span>
-                            <input type="password" id="password" name="password" placeholder="Entrez votre code d'accès" required autocomplete="current-password">
-                            <button type="button" class="toggle-password" id="togglePassword">👁️</button>
-                            <div class="input-glow"></div>
-                        </div>
-                    </div>
-
-                    <div class="form-options">
-                        <label class="checkbox-container">
-                            <input type="checkbox" id="remember">
-                            <span class="checkmark"></span>
-                            Maintenir la connexion
-                        </label>
-                        <a href="#" class="forgot-link">Code oublié ?</a>
-                    </div>
-
-                    <button type="submit" class="login-button" id="loginButton">
-                        <span class="button-text">Authentifier</span>
-                        <span class="button-glow"></span>
-                    </button>
-
-                    <div class="login-footer">
-                        <p>Pas encore d'accès ?</p>
-                        <a href="register.html" class="register-link">Demander une accréditation</a>
-                    </div>
-                </form>
-
-                <!-- Zone de debug (visible seulement en développement) -->
-                <div class="debug-zone" id="debugZone" style="display: none; margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 5px;">
-                    <h4>Debug Info</h4>
-                    <button type="button" id="debugUsers" class="debug-btn">Voir les utilisateurs</button>
-                    <button type="button" id="debugTest" class="debug-btn">Tester mon compte</button>
-                    <div id="debugOutput" style="margin-top: 10px; font-family: monospace; font-size: 12px;"></div>
-                </div>
-
-                <!-- Statistiques de sécurité -->
-                <div class="security-stats">
-                    <div class="stat-item">
-                        <span class="stat-number">256</span>
-                        <span class="stat-label">Bits de chiffrement</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">99.9%</span>
-                        <span class="stat-label">Sécurité</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">24/7</span>
-                        <span class="stat-label">Surveillance</span>
-                    </div>
-                </div>
+        <form class="login-form" id="loginForm">
+          <div class="form-group">
+            <label for="username">Nom d'agent</label>
+            <div class="input-container">
+              <span class="input-icon">👤</span>
+              <input type="text" id="username" name="username" placeholder="Entrez votre nom d'agent" required autocomplete="username">
+              <div class="input-glow"></div>
             </div>
-        </main>
+          </div>
 
-        <!-- Messages d'alerte -->
-        <div class="alert-container" id="alertContainer"></div>
-    </div>
+          <div class="form-group">
+            <label for="password">Code d'accès</label>
+            <div class="input-container">
+              <span class="input-icon">🔐</span>
+              <input type="password" id="password" name="password" placeholder="Entrez votre code d'accès" required autocomplete="current-password">
+              <button type="button" class="toggle-password" id="togglePassword">👁️</button>
+              <div class="input-glow"></div>
+            </div>
+          </div>
 
-    <script>
-        // Configuration API
-        const API_BASE_URL = window.location.hostname === 'localhost' 
-            ? 'http://localhost:3000/api' 
-            : 'https://qvslv-site.onrender.com/api';
+          <div class="form-options">
+            <label class="checkbox-container">
+              <input type="checkbox" id="remember">
+              <span class="checkmark"></span>
+              Maintenir la connexion
+            </label>
+            <a href="#" class="forgot-link">Code oublié ?</a>
+          </div>
 
-        console.log('🌐 API Base URL:', API_BASE_URL);
+          <button type="submit" class="login-button" id="loginButton">
+            <span class="button-text">Authentifier</span>
+            <span class="button-glow"></span>
+          </button>
 
-        // Activer le mode debug si on est sur localhost ou si le paramètre debug est présent
-        const isDebugMode = window.location.hostname === 'localhost' || window.location.search.includes('debug=true');
-        if (isDebugMode) {
-            document.getElementById('debugZone').style.display = 'block';
-        }
+          <div class="login-footer">
+            <p>Pas encore d'accès ?</p>
+            <a href="register.html" class="register-link">Demander une accréditation</a>
+          </div>
+        </form>
 
-        // Système de particules simplifié
-        class LoginParticles {
-            constructor() {
-                this.initParticles();
-            }
+        <div class="security-stats">
+          <div class="stat-item">
+            <span class="stat-number">256</span>
+            <span class="stat-label">Bits de chiffrement</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">99.9%</span>
+            <span class="stat-label">Sécurité</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">24/7</span>
+            <span class="stat-label">Surveillance</span>
+          </div>
+        </div>
+      </div>
+    </main>
 
-            initParticles() {
-                const particlesContainer = document.getElementById('particles');
-                const particleCount = 60;
+    <div class="alert-container" id="alertContainer"></div>
+  </div>
 
-                for (let i = 0; i < particleCount; i++) {
-                    this.createParticle(particlesContainer, true);
-                }
-
-                setInterval(() => {
-                    this.createParticle(particlesContainer);
-                }, 2000);
-            }
-
-            createParticle(container, isInitial = false) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                
-                particle.style.left = Math.random() * 100 + '%';
-                
-                if (isInitial) {
-                    particle.style.top = Math.random() * 100 + '%';
-                    particle.style.animationDelay = Math.random() * 8 + 's';
-                } else {
-                    particle.style.animationDelay = Math.random() * 2 + 's';
-                }
-                
-                const size = Math.random() * 3 + 2;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                
-                const duration = Math.random() * 6 + 6;
-                particle.style.animationDuration = duration + 's';
-                
-                container.appendChild(particle);
-
-                setTimeout(() => {
-                    if (particle.parentNode) {
-                        particle.parentNode.removeChild(particle);
-                    }
-                }, duration * 1000 + 2000);
-            }
-        }
-
-        // Fonctions de debug
-        async function debugUsers() {
-            try {
-                console.log('🐛 Récupération des utilisateurs...');
-                const response = await fetch(`${API_BASE_URL}/auth/debug/users`);
-                const data = await response.json();
-                
-                console.log('👥 Utilisateurs:', data);
-                
-                const output = document.getElementById('debugOutput');
-                output.innerHTML = `
-                    <strong>Utilisateurs (${data.count}):</strong><br>
-                    ${data.users.map(u => `• ${u.username} (${u.email}) - ${u.role}`).join('<br>')}
-                `;
-                
-                showAlert(`${data.count} utilisateurs trouvés (voir console)`, 'info');
-            } catch (error) {
-                console.error('❌ Erreur debug users:', error);
-                showAlert('Erreur lors de la récupération des utilisateurs', 'error');
-            }
-        }
-
-        async function debugTestAccount() {
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            
-            if (!username || !password) {
-                showAlert('Remplissez username et password pour tester', 'warning');
-                return;
-            }
-            
-            try {
-                console.log('🐛 Test du compte:', username);
-                
-                // Test 1: Vérifier si l'utilisateur existe
-                const checkResponse = await fetch(`${API_BASE_URL}/auth/debug/check-user`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username })
-                });
-                const checkData = await checkResponse.json();
-                
-                console.log('🔍 Vérification utilisateur:', checkData);
-                
-                if (!checkData.found) {
-                    showAlert(`Utilisateur "${username}" non trouvé`, 'error');
-                    return;
-                }
-                
-                // Test 2: Vérifier le mot de passe
-                const passwordResponse = await fetch(`${API_BASE_URL}/auth/debug/test-password`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-                const passwordData = await passwordResponse.json();
-                
-                console.log('🔐 Vérification mot de passe:', passwordData);
-                
-                const output = document.getElementById('debugOutput');
-                output.innerHTML = `
-                    <strong>Test du compte:</strong><br>
-                    • Utilisateur trouvé: ${checkData.found ? '✅' : '❌'}<br>
-                    • Username: ${checkData.user?.username || 'N/A'}<br>
-                    • Email: ${checkData.user?.email || 'N/A'}<br>
-                    • Rôle: ${checkData.user?.role || 'N/A'}<br>
-                    • Actif: ${checkData.user?.isActive ? '✅' : '❌'}<br>
-                    • Mot de passe valide: ${passwordData.passwordValid ? '✅' : '❌'}
-                `;
-                
-                if (passwordData.passwordValid) {
-                    showAlert('Compte et mot de passe valides ! ✅', 'success');
-                } else {
-                    showAlert('Mot de passe incorrect ! ❌', 'error');
-                }
-                
-            } catch (error) {
-                console.error('❌ Erreur debug test:', error);
-                showAlert('Erreur lors du test du compte', 'error');
-            }
-        }
-
-        // Fonctionnalités de la page
-        document.addEventListener('DOMContentLoaded', () => {
-            new LoginParticles();
-
-            // Éléments du DOM
-            const togglePassword = document.getElementById('togglePassword');
-            const passwordInput = document.getElementById('password');
-            const usernameInput = document.getElementById('username');
-            const loginForm = document.getElementById('loginForm');
-            const loginButton = document.getElementById('loginButton');
-
-            // Debug buttons
-            if (isDebugMode) {
-                document.getElementById('debugUsers').addEventListener('click', debugUsers);
-                document.getElementById('debugTest').addEventListener('click', debugTestAccount);
-            }
-
-            // Toggle password visibility
-            togglePassword?.addEventListener('click', () => {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                togglePassword.textContent = type === 'password' ? '👁️' : '🙈';
-            });
-
-            // Auto-trim sur les champs
-            usernameInput?.addEventListener('blur', () => {
-                usernameInput.value = usernameInput.value.trim();
-            });
-
-            // Gestion du formulaire de connexion
-            loginForm?.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const username = usernameInput.value.trim();
-                const password = passwordInput.value;
-                const remember = document.getElementById('remember').checked;
-                
-                console.log('🔑 Tentative de connexion:', { username, remember });
-                
-                // Validation côté client
-                if (!username || !password) {
-                    showAlert('Veuillez remplir tous les champs', 'error');
-                    return;
-                }
-
-                // Désactiver le bouton pendant la requête
-                loginButton.disabled = true;
-                loginButton.querySelector('.button-text').textContent = 'Authentification...';
-
-                try {
-                    showAlert('Authentification en cours...', 'info');
-                    
-                    console.log('📡 Envoi de la requête de connexion...');
-                    const response = await fetch(`${API_BASE_URL}/auth/login`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ username, password })
-                    });
-
-                    console.log('📥 Réponse reçue:', response.status, response.statusText);
-                    const result = await response.json();
-                    console.log('📦 Données de réponse:', result);
-
-                    if (!response.ok) {
-                        throw new Error(result.error || 'Erreur de connexion');
-                    }
-
-                    // Stocker le token selon le choix de l'utilisateur
-                    if (remember) {
-                        localStorage.setItem('qvslv_token', result.token);
-                        localStorage.setItem('qvslv_user', JSON.stringify(result.user));
-                        console.log('💾 Token stocké dans localStorage');
-                    } else {
-                        sessionStorage.setItem('qvslv_token', result.token);
-                        sessionStorage.setItem('qvslv_user', JSON.stringify(result.user));
-                        console.log('💾 Token stocké dans sessionStorage');
-                    }
-
-                    showAlert(`Bienvenue ${result.user.username} ! Redirection...`, 'success');
-                    
-                    // Redirection vers l'index après 1.5 secondes
-                    setTimeout(() => {
-                        console.log('🔄 Redirection vers /index.html');
-                        window.location.href = '/index.html';
-                    }, 1500);
-
-                } catch (error) {
-                    console.error('❌ Erreur de connexion:', error);
-                    showAlert(error.message || 'Erreur de connexion', 'error');
-                    
-                    // Mode debug: afficher plus d'infos sur l'erreur
-                    if (isDebugMode) {
-                        const debugOutput = document.getElementById('debugOutput');
-                        if (debugOutput) {
-                            debugOutput.innerHTML = `
-                                <strong style="color: #ff4444;">Erreur de connexion:</strong><br>
-                                ${error.message}<br>
-                                <em>Utilisez les boutons de debug pour diagnostiquer</em>
-                            `;
-                        }
-                    }
-                } finally {
-                    // Réactiver le bouton
-                    loginButton.disabled = false;
-                    loginButton.querySelector('.button-text').textContent = 'Authentifier';
-                }
-            });
-
-            // Vérifier si déjà connecté
-            const token = localStorage.getItem('qvslv_token') || sessionStorage.getItem('qvslv_token');
-            if (token) {
-                console.log('🔍 Token existant trouvé, vérification...');
-                verifyToken(token).then(isValid => {
-                    if (isValid) {
-                        console.log('✅ Token valide, redirection...');
-                        showAlert('Vous êtes déjà connecté ! Redirection...', 'info');
-                        setTimeout(() => {
-                            window.location.href = '/index.html';
-                        }, 1500);
-                    } else {
-                        console.log('❌ Token invalide, nettoyage...');
-                        // Nettoyer les tokens invalides
-                        localStorage.removeItem('qvslv_token');
-                        localStorage.removeItem('qvslv_user');
-                        sessionStorage.removeItem('qvslv_token');
-                        sessionStorage.removeItem('qvslv_user');
-                    }
-                });
-            }
-        });
-
-        // Fonction pour vérifier le token
-        async function verifyToken(token) {
-            try {
-                console.log('🔐 Vérification du token...');
-                const response = await fetch(`${API_BASE_URL}/auth/verify`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                console.log('📋 Vérification token:', response.ok);
-                return response.ok;
-            } catch (error) {
-                console.error('❌ Erreur vérification token:', error);
-                return false;
-            }
-        }
-
-        // Système d'alertes
-        function showAlert(message, type = 'info') {
-            const alertContainer = document.getElementById('alertContainer');
-            const alert = document.createElement('div');
-            alert.className = `alert alert-${type}`;
-            alert.innerHTML = `
-                <span class="alert-icon">${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span>
-                <span class="alert-message">${message}</span>
-            `;
-            
-            alertContainer.appendChild(alert);
-            
-            setTimeout(() => {
-                alert.classList.add('show');
-            }, 100);
-            
-            setTimeout(() => {
-                alert.classList.remove('show');
-                setTimeout(() => {
-                    if (alert.parentNode) {
-                        alert.parentNode.removeChild(alert);
-                    }
-                }, 300);
-            }, 4000);
-        }
-
-        // Animation des statistiques
-        setTimeout(() => {
-            const statNumbers = document.querySelectorAll('.stat-number');
-            statNumbers.forEach(stat => {
-                stat.style.transform = 'scale(1.1)';
-                setTimeout(() => {
-                    stat.style.transform = 'scale(1)';
-                }, 200);
-            });
-        }, 1000);
-    </script>
-
-    <style>
-        /* Styles pour les boutons de debug */
-        .debug-btn {
-            background: rgba(0, 255, 0, 0.2);
-            border: 1px solid #00ff00;
-            color: #00ff00;
-            padding: 5px 10px;
-            margin: 5px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        
-        .debug-btn:hover {
-            background: rgba(0, 255, 0, 0.3);
-        }
-        
-        #debugOutput {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px;
-            border-radius: 3px;
-            border: 1px solid #333;
-            color: #00ff00;
-            white-space: pre-wrap;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-    </style>
+  <script src="/script/particules.js"></script>
+  <script src="/script/alerts.js"></script>
+  <script type="module" src="/script/login.js"></script>
 </body>
 </html>

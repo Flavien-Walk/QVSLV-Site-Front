@@ -964,3 +964,61 @@ body {
 .register-button { animation-delay: 0.45s; }
 .register-footer { animation-delay: 0.5s; }
 .accreditation-process { animation-delay: 0.55s; }
+
+/* Styles extraits et utiles à remettre dans register.css */
+
+/* Particules d'arrière-plan */
+.particle {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  animation: float linear infinite;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+}
+
+/* Indicateur de force du mot de passe */
+.password-strength {
+  margin-top: 5px;
+  height: 8px;
+  background: #222;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.strength-bar {
+  height: 100%;
+  width: 0;
+  background: #ff4444;
+  transition: width 0.4s ease;
+}
+
+.strength-text {
+  display: block;
+  font-size: 0.75rem;
+  text-align: right;
+  margin-top: 2px;
+}
+
+/* Indicateur de correspondance des mots de passe */
+.match-indicator {
+  font-size: 1.2rem;
+  margin-left: 8px;
+  transition: color 0.3s ease;
+}
+
+/* Étapes d'accréditation animées */
+.step {
+  transition: transform 0.3s ease;
+}
