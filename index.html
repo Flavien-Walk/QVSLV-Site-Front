@@ -480,15 +480,28 @@
             </div>
         </div>
         <div class="user-menu-actions">
-            <a href="#" class="menu-action" id="profileAction">
+            <a href="/html/profile.html" class="menu-action" id="profileAction">
                 <span class="action-icon">👤</span>
                 <span class="action-text">Mon Profil</span>
             </a>
-            <a href="#" class="menu-action" id="settingsAction">
+            <a href="/html/settings.html" class="menu-action" id="settingsAction">
                 <span class="action-icon">⚙️</span>
                 <span class="action-text">Paramètres</span>
             </a>
-            <a href="#" class="menu-action" id="logoutAction">
+            <a href="/html/bookmarks.html" class="menu-action" id="bookmarksAction">
+                <span class="action-icon">⭐</span>
+                <span class="action-text">Mes Signets</span>
+            </a>
+            <a href="/html/activity.html" class="menu-action" id="activityAction">
+                <span class="action-icon">📊</span>
+                <span class="action-text">Mon Activité</span>
+            </a>
+            <a href="/html/security.html" class="menu-action" id="securityAction">
+                <span class="action-icon">🔐</span>
+                <span class="action-text">Sécurité</span>
+            </a>
+            <div class="menu-separator"></div>
+            <a href="#" class="menu-action logout-action" id="logoutAction">
                 <span class="action-icon">🚪</span>
                 <span class="action-text">Déconnexion</span>
             </a>
@@ -497,6 +510,136 @@
 
     <!-- Notifications -->
     <div class="notification-container" id="notificationContainer"></div>
+
+    <!-- Styles supplémentaires pour le menu -->
+    <style>
+        .user-menu {
+            position: fixed;
+            background: linear-gradient(135deg, rgba(0, 20, 40, 0.95), rgba(0, 30, 60, 0.95));
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 0;
+            min-width: 250px;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .user-menu.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .user-menu-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #00ffff, #0080ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            color: #00ffff;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .user-role {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .user-menu-actions {
+            padding: 10px 0;
+        }
+
+        .menu-action {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: none;
+            background: none;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .menu-action:hover {
+            background: rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            transform: translateX(5px);
+        }
+
+        .logout-action:hover {
+            background: rgba(255, 0, 100, 0.1);
+            color: #ff6b9d;
+        }
+
+        .action-icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .action-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .menu-separator {
+            height: 1px;
+            background: rgba(0, 255, 255, 0.1);
+            margin: 10px 0;
+        }
+
+        /* Animation pour l'apparition du menu */
+        @keyframes menuSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .user-menu[style*="block"] {
+            animation: menuSlideIn 0.2s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .user-menu {
+                min-width: 200px;
+                right: 10px !important;
+            }
+        }
+    </style>
 
     <script>
         // Configuration API CORRIGÉE
@@ -703,9 +846,13 @@
                 }
 
                 const isVisible = userMenu.style.display !== 'none';
-                userMenu.style.display = isVisible ? 'none' : 'block';
-
-                if (!isVisible) {
+                
+                if (isVisible) {
+                    userMenu.style.display = 'none';
+                    userMenu.classList.remove('show');
+                } else {
+                    userMenu.style.display = 'block';
+                    
                     // Positionner le menu sous le bouton
                     const userProfileBtn = document.getElementById('userProfileBtn');
                     if (userProfileBtn) {
@@ -715,6 +862,11 @@
                         userMenu.style.right = '20px';
                         userMenu.style.zIndex = '10000';
                     }
+                    
+                    // Ajouter la classe pour l'animation
+                    setTimeout(() => {
+                        userMenu.classList.add('show');
+                    }, 10);
                 }
             }
 
@@ -758,36 +910,114 @@
                         !userMenu.contains(e.target) && 
                         !userProfileBtn.contains(e.target)) {
                         userMenu.style.display = 'none';
+                        userMenu.classList.remove('show');
                     }
                 });
 
-                // Event listener pour la déconnexion
+                // Event listeners pour les actions du menu
                 document.addEventListener('click', (e) => {
+                    // Déconnexion - Traitement spécial (pas de redirection)
                     if (e.target.closest('#logoutAction')) {
                         e.preventDefault();
                         console.log('🚪 Déconnexion demandée');
                         this.logout();
+                        return;
                     }
-                });
 
-                // Event listener pour le profil
-                document.addEventListener('click', (e) => {
+                    // Redirection vers le profil
                     if (e.target.closest('#profileAction')) {
                         e.preventDefault();
-                        this.showNotification('Page de profil en cours de développement', 'info');
+                        console.log('👤 Redirection vers le profil');
+                        this.redirectToPage('/html/profile.html', 'Profil');
+                        return;
                     }
-                });
 
-                // Event listener pour les paramètres
-                document.addEventListener('click', (e) => {
+                    // Redirection vers les paramètres
                     if (e.target.closest('#settingsAction')) {
                         e.preventDefault();
-                        this.showNotification('Paramètres en cours de développement', 'info');
+                        console.log('⚙️ Redirection vers les paramètres');
+                        this.redirectToPage('/html/settings.html', 'Paramètres');
+                        return;
+                    }
+
+                    // Redirection vers les signets
+                    if (e.target.closest('#bookmarksAction')) {
+                        e.preventDefault();
+                        console.log('⭐ Redirection vers les signets');
+                        this.redirectToPage('/html/bookmarks.html', 'Signets');
+                        return;
+                    }
+
+                    // Redirection vers l'activité
+                    if (e.target.closest('#activityAction')) {
+                        e.preventDefault();
+                        console.log('📊 Redirection vers l\'activité');
+                        this.redirectToPage('/html/activity.html', 'Activité');
+                        return;
+                    }
+
+                    // Redirection vers la sécurité
+                    if (e.target.closest('#securityAction')) {
+                        e.preventDefault();
+                        console.log('🔐 Redirection vers la sécurité');
+                        this.redirectToPage('/html/security.html', 'Sécurité');
+                        return;
                     }
                 });
 
                 // Gestion de la shoutbox
                 this.initShoutboxListeners();
+            }
+
+            redirectToPage(url, pageName) {
+                console.log(`🔄 Redirection vers ${pageName}: ${url}`);
+                
+                // Vérifier si la page existe (simulation)
+                this.checkPageExists(url).then(exists => {
+                    if (exists) {
+                        // Fermer le menu avant la redirection
+                        const userMenu = document.getElementById('userMenu');
+                        if (userMenu) {
+                            userMenu.style.display = 'none';
+                            userMenu.classList.remove('show');
+                        }
+                        
+                        // Afficher une notification de redirection
+                        this.showNotification(`Redirection vers ${pageName}...`, 'info');
+                        
+                        // Redirection avec un petit délai pour l'effet visuel
+                        setTimeout(() => {
+                            window.location.href = url;
+                        }, 500);
+                    } else {
+                        // Page non trouvée, afficher une notification d'erreur
+                        this.showNotification(`Page ${pageName} en cours de développement`, 'warning');
+                        console.warn(`⚠️ Page non trouvée: ${url}`);
+                    }
+                }).catch(error => {
+                    console.error(`❌ Erreur lors de la vérification de la page ${url}:`, error);
+                    this.showNotification(`Page ${pageName} temporairement indisponible`, 'error');
+                });
+            }
+
+            async checkPageExists(url) {
+                try {
+                    // En production, vous pourriez faire une vraie vérification HTTP
+                    // Pour la démo, on simule que certaines pages existent
+                    const existingPages = [
+                        '/html/profile.html',
+                        '/html/login.html',
+                        '/html/register.html'
+                    ];
+                    
+                    // Simulation d'une vérification asynchrone
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    
+                    return existingPages.includes(url);
+                } catch (error) {
+                    console.error('Erreur lors de la vérification de la page:', error);
+                    return false;
+                }
             }
 
             initShoutboxListeners() {
@@ -889,9 +1119,6 @@
 
                 // Vider le champ de saisie
                 messageInput.value = '';
-
-                // Ici vous pourriez envoyer le message au serveur
-                // await this.sendMessageToServer(message);
             }
 
             escapeHtml(text) {
@@ -907,6 +1134,14 @@
 
             async logout() {
                 console.log('🚪 Déconnexion en cours...');
+                
+                // Fermer le menu utilisateur immédiatement
+                const userMenu = document.getElementById('userMenu');
+                if (userMenu) {
+                    userMenu.style.display = 'none';
+                    userMenu.classList.remove('show');
+                }
+                
                 try {
                     if (authToken) {
                         await fetch(`${API_BASE_URL}/auth/logout`, {
@@ -941,9 +1176,6 @@
                     console.log('✅ Déconnexion terminée');
                     this.updateUI(false);
                     this.showNotification('Déconnexion réussie', 'success');
-                    
-                    // Masquer le menu utilisateur
-                    document.getElementById('userMenu').style.display = 'none';
                 }
             }
 
