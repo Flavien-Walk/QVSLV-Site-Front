@@ -441,3 +441,269 @@ window.onUserLogin = function(userData, token) {
         window.authManager.checkAuthStatus();
     }
 };
+
+// auth-manager.js - Gestionnaire d'authentification simplifié
+
+class AuthManager {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        this.checkAuthStatus();
+        this.addEventListeners();
+        
+        // Écouter les changements de localStorage
+        window.addEventListener('storage', () => this.checkAuthStatus());
+        
+        // Vérifier périodiquement
+        setInterval(() => this.checkAuthStatus(), 5000);
+    }
+
+    checkAuthStatus() {
+        const token = localStorage.getItem('authToken');
+        const userData = localStorage.getItem('userData');
+
+        if (token && userData) {
+            try {
+                const user = JSON.parse(userData);
+                if (this.isTokenValid(token)) {
+                    this.showLoggedInState(user);
+                } else {
+                    this.logout();
+                }
+            } catch (error) {
+                this.logout();
+            }
+        } else {
+            this.showLoggedOutState();
+        }
+    }
+
+    isTokenValid(token) {
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            return payload.exp > (Date.now() / 1000);
+        } catch {
+            return false;
+        }
+    }
+
+    showLoggedInState(user) {
+        // Masquer bouton connexion
+        const loginLink = document.getElementById('loginLink');
+        if (loginLink) loginLink.style.display = 'none';
+
+        // Afficher bouton profil
+        const userProfileBtn = document.getElementById('userProfileBtn');
+        if (userProfileBtn) {
+            userProfileBtn.style.display = 'flex';
+            
+            // Mettre à jour les infos
+            const avatar = document.getElementById('userAvatarSmall');
+            const name = document.getElementById('userNameSmall');
+            if (avatar) avatar.textContent = user.username.charAt(0).toUpperCase();
+            if (name) name.textContent = user.username;
+        }
+
+        // Mettre à jour niveau d'accès
+        const levelBadge = document.getElementById('levelBadge');
+        if (levelBadge) {
+            levelBadge.textContent = user.role;
+            levelBadge.className = `level-badge ${user.role.toLowerCase()}`;
+        }
+
+        // Afficher message de bienvenue
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        if (welcomeMessage) {
+            welcomeMessage.style.display = 'block';
+            const username = document.getElementById('welcomeUsername');
+            const level = document.getElementById('welcomeLevel');
+            if (username) username.textContent = user.username;
+            if (level) level.textContent = user.role;
+        }
+
+        // Afficher profil sidebar
+        const profileBlock = document.getElementById('userProfileBlock');
+        if (profileBlock) {
+            profileBlock.style.display = 'block';
+            const profileName = document.getElementById('profileName');
+            const profileRole = document.getElementById('profileRole');
+            if (profileName) profileName.textContent = user.username;
+            if (profileRole) profileRole.textContent = user.role;
+        }
+
+        // Activer shoutbox
+        const messageInput = document.getElementById('messageInput');
+        const emojiButton = document.getElementById('emojiButton');
+        const sendButton = document.getElementById('sendButton');
+        if (messageInput) {
+            messageInput.disabled = false;
+            messageInput.placeholder = 'Tapez votre message...';
+        }
+        if (emojiButton) emojiButton.disabled = false;
+        if (sendButton) sendButton.disabled = false;
+
+        // Mettre à jour menu utilisateur
+        const userName = document.getElementById('userName');
+        const userRole = document.getElementById('userRole');
+        if (userName) userName.textContent = user.username;
+        if (userRole) userRole.textContent = user.role;
+    }
+
+    showLoggedOutState() {
+        // Afficher bouton connexion
+        const loginLink = document.getElementById('loginLink');
+        if (loginLink) loginLink.style.display = 'flex';
+
+        // Masquer bouton profil
+        const userProfileBtn = document.getElementById('userProfileBtn');
+        if (userProfileBtn) userProfileBtn.style.display = 'none';
+
+        // Réinitialiser niveau d'accès
+        const levelBadge = document.getElementById('levelBadge');
+        if (levelBadge) {
+            levelBadge.textContent = 'ANONYME';
+            levelBadge.className = 'level-badge anonymous';
+        }
+
+        // Masquer message de bienvenue
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        if (welcomeMessage) welcomeMessage.style.display = 'none';
+
+        // Masquer profil sidebar
+        const profileBlock = document.getElementById('userProfileBlock');
+        if (profileBlock) profileBlock.style.display = 'none';
+
+        // Désactiver shoutbox
+        const messageInput = document.getElementById('messageInput');
+        const emojiButton = document.getElementById('emojiButton');
+        const sendButton = document.getElementById('sendButton');
+        if (messageInput) {
+            messageInput.disabled = true;
+            messageInput.placeholder = 'Connectez-vous pour participer...';
+        }
+        if (emojiButton) emojiButton.disabled = true;
+        if (sendButton) sendButton.disabled = true;
+
+        this.closeUserMenu();
+    }
+
+    addEventListeners() {
+        // Clic sur bouton profil
+        const userProfileBtn = document.getElementById('userProfileBtn');
+        if (userProfileBtn) {
+            userProfileBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.toggleUserMenu();
+            });
+        }
+
+        // Clic sur déconnexion
+        const logoutAction = document.getElementById('logoutAction');
+        if (logoutAction) {
+            logoutAction.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.logout();
+            });
+        }
+
+        // Fermer menu avec overlay
+        const menuOverlay = document.getElementById('menuOverlay');
+        if (menuOverlay) {
+            menuOverlay.addEventListener('click', () => this.closeUserMenu());
+        }
+
+        // Fermer avec Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') this.closeUserMenu();
+        });
+
+        // Fermer en cliquant ailleurs
+        document.addEventListener('click', (e) => {
+            const userMenu = document.getElementById('userMenu');
+            const userProfileBtn = document.getElementById('userProfileBtn');
+            
+            if (userMenu && userProfileBtn && 
+                !userMenu.contains(e.target) && 
+                !userProfileBtn.contains(e.target)) {
+                this.closeUserMenu();
+            }
+        });
+    }
+
+    toggleUserMenu() {
+        const userMenu = document.getElementById('userMenu');
+        const isOpen = userMenu && userMenu.classList.contains('show');
+        
+        if (isOpen) {
+            this.closeUserMenu();
+        } else {
+            this.openUserMenu();
+        }
+    }
+
+    openUserMenu() {
+        const userMenu = document.getElementById('userMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const userProfileBtn = document.getElementById('userProfileBtn');
+
+        if (userMenu && menuOverlay && userProfileBtn) {
+            const btnRect = userProfileBtn.getBoundingClientRect();
+            userMenu.style.top = (btnRect.bottom + 10) + 'px';
+            userMenu.style.left = (btnRect.left) + 'px';
+
+            userMenu.classList.add('show');
+            menuOverlay.classList.add('show');
+        }
+    }
+
+    closeUserMenu() {
+        const userMenu = document.getElementById('userMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        if (userMenu) userMenu.classList.remove('show');
+        if (menuOverlay) menuOverlay.classList.remove('show');
+    }
+
+    logout() {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userData');
+        this.closeUserMenu();
+        this.showLoggedOutState();
+        this.showNotification('Déconnexion réussie', 'success');
+    }
+
+    showNotification(message, type = 'info') {
+        const container = document.getElementById('notificationContainer');
+        if (!container) return;
+
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        
+        const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+        notification.innerHTML = `
+            <span class="notification-icon">${icons[type] || icons.info}</span>
+            <span class="notification-message">${message}</span>
+        `;
+
+        container.appendChild(notification);
+        setTimeout(() => notification.classList.add('show'), 100);
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => container.removeChild(notification), 500);
+        }, 3000);
+    }
+}
+
+// Initialiser
+document.addEventListener('DOMContentLoaded', () => {
+    window.authManager = new AuthManager();
+});
+
+// Fonction globale pour connexion
+window.onUserLogin = function(userData, token) {
+    localStorage.setItem('authToken', token);
+    localStorage.setItem('userData', JSON.stringify(userData));
+    if (window.authManager) window.authManager.checkAuthStatus();
+};

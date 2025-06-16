@@ -2796,4 +2796,58 @@ body {
     }
 }
 
+/* CSS à ajouter dans styles.css ET login.css */
+
+.level-badge.anonymous {
+    background: rgba(128, 128, 128, 0.2);
+    color: #808080;
+    border-color: rgba(128, 128, 128, 0.4);
+}
+
+/* Fix pour les classes CSS en minuscules */
+.level-badge.vérifié {
+    background: rgba(0, 255, 0, 0.2);
+    color: #00ff00;
+    border-color: rgba(0, 255, 0, 0.4);
+}
+
+.level-badge.chercheur {
+    background: rgba(0, 191, 255, 0.2);
+    color: #00bfff;
+    border-color: rgba(0, 191, 255, 0.4);
+}
+
+.level-badge.expert {
+    background: rgba(255, 165, 0, 0.2);
+    color: #ffa500;
+    border-color: rgba(255, 165, 0, 0.4);
+}
+
+.level-badge.gardien {
+    background: rgba(138, 43, 226, 0.2);
+    color: #8a2be2;
+    border-color: rgba(138, 43, 226, 0.4);
+}
+
+.level-badge.admin {
+    background: rgba(255, 0, 0, 0.2);
+    color: #ff0000;
+    border-color: rgba(255, 0, 0, 0.4);
+}
+
+/* Style pour les messages de succès */
+.success-message {
+    background: rgba(0, 255, 0, 0.1);
+    border: 1px solid rgba(0, 255, 0, 0.3);
+    color: #00ff00;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin: 10px 0;
+    display: none;
+}
+
+.success-message.show {
+    display: block;
+    animation: fadeIn 0.3s ease-out;
+}
 
