@@ -305,16 +305,21 @@ body {
     font-weight: 400;
 }
 
+/* Navigation - Bouton connexion par défaut */
 .back-nav .nav-link {
     color: var(--text-light);
     text-decoration: none;
     font-weight: 500;
-    padding: 10px 20px;
-    border-radius: 10px;
+    padding: 12px 24px;
+    border-radius: 12px;
     transition: var(--transition);
     border: 1px solid transparent;
     position: relative;
     overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(0, 255, 213, 0.1), rgba(196, 100, 255, 0.1));
 }
 
 .back-nav .nav-link::before {
@@ -324,7 +329,7 @@ body {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(196, 100, 255, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(196, 100, 255, 0.2), transparent);
     transition: left 0.5s ease;
 }
 
@@ -334,10 +339,197 @@ body {
 
 .back-nav .nav-link:hover {
     color: var(--primary);
-    background: rgba(196, 100, 255, 0.1);
+    background: linear-gradient(135deg, rgba(196, 100, 255, 0.2), rgba(0, 255, 213, 0.1));
     border-color: var(--border-glow);
     box-shadow: 0 4px 20px rgba(196, 100, 255, 0.3);
     transform: translateY(-2px);
+}
+
+/* Bouton connexion spécifique */
+.login-btn {
+    background: linear-gradient(135deg, var(--secondary), #00b8a3) !important;
+    color: white !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0, 255, 213, 0.3);
+}
+
+.login-btn:hover {
+    background: linear-gradient(135deg, #00b8a3, var(--secondary)) !important;
+    box-shadow: 0 6px 25px rgba(0, 255, 213, 0.5) !important;
+    transform: translateY(-3px) !important;
+}
+
+/* Bouton profil utilisateur connecté */
+.user-profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(196, 100, 255, 0.15), rgba(0, 255, 213, 0.15));
+    border: 1px solid var(--border-glow);
+    color: var(--text-light);
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    min-width: 150px;
+    box-shadow: 0 4px 15px rgba(196, 100, 255, 0.2);
+}
+
+.user-profile-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.user-profile-btn:hover::before {
+    left: 100%;
+}
+
+.user-profile-btn:hover {
+    background: linear-gradient(135deg, rgba(196, 100, 255, 0.25), rgba(0, 255, 213, 0.25));
+    border-color: var(--primary);
+    box-shadow: 0 6px 25px rgba(196, 100, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.user-avatar-small {
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 0 10px rgba(196, 100, 255, 0.5);
+}
+
+.user-name-small {
+    font-weight: 600;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dropdown-arrow {
+    font-size: 0.8rem;
+    color: var(--secondary);
+    transition: var(--transition);
+}
+
+.user-profile-btn:hover .dropdown-arrow {
+    transform: rotate(180deg);
+    color: var(--primary);
+}
+
+/* Menu déroulant utilisateur */
+.user-menu {
+    position: fixed;
+    background: linear-gradient(135deg, var(--bg-card), #2a1f4d);
+    border: 1px solid var(--border-glow);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    min-width: 200px;
+    overflow: hidden;
+    transform: scale(0.95);
+    opacity: 0;
+    transition: all 0.3s ease;
+    display: none;
+}
+
+.user-menu.show {
+    display: block;
+    transform: scale(1);
+    opacity: 1;
+}
+
+.user-menu-header {
+    padding: 15px;
+    border-bottom: 1px solid rgba(196, 100, 255, 0.2);
+    background: linear-gradient(135deg, rgba(196, 100, 255, 0.1), transparent);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(196, 100, 255, 0.6);
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.user-role {
+    font-size: 0.8rem;
+    color: var(--secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.user-menu-actions {
+    padding: 8px 0;
+}
+
+.menu-action {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    color: var(--text-light);
+    text-decoration: none;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.menu-action:hover {
+    background: rgba(196, 100, 255, 0.1);
+    color: var(--primary);
+}
+
+.action-icon {
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+}
+
+.action-text {
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
 /* Main content */
@@ -594,6 +786,12 @@ body {
     background: linear-gradient(135deg, #00b8a3, var(--secondary));
 }
 
+.login-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
 .button-glow {
     position: absolute;
     top: 0;
@@ -669,6 +867,52 @@ body {
     letter-spacing: 0.5px;
 }
 
+/* Debug zone styles */
+.debug-zone {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 255, 0, 0.3);
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.debug-zone h4 {
+    color: #00ff00;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.debug-btn {
+    background: rgba(0, 255, 0, 0.2);
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: var(--transition);
+}
+
+.debug-btn:hover {
+    background: rgba(0, 255, 0, 0.3);
+    transform: translateY(-1px);
+}
+
+#debugOutput {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid #333;
+    color: #00ff00;
+    white-space: pre-wrap;
+    max-height: 200px;
+    overflow-y: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
 /* Alertes */
 .alert-container {
     position: fixed;
@@ -710,6 +954,10 @@ body {
 
 .alert-info {
     border-left: 4px solid var(--secondary);
+}
+
+.alert-warning {
+    border-left: 4px solid #ffa500;
 }
 
 .alert-icon {
@@ -793,6 +1041,24 @@ body {
         top: 35px;
         bottom: 35px;
     }
+    
+    /* Ajustements pour le bouton profil sur mobile */
+    .user-profile-btn {
+        min-width: 120px;
+        padding: 8px 12px;
+    }
+    
+    .user-name-small {
+        max-width: 60px;
+        font-size: 0.8rem;
+    }
+    
+    .user-menu {
+        min-width: 180px;
+        left: 10px !important;
+        right: 10px !important;
+        max-width: calc(100vw - 20px);
+    }
 }
 
 @media (max-width: 480px) {
@@ -829,6 +1095,27 @@ body {
         top: 30px;
         bottom: 30px;
     }
+    
+    /* Bouton profil très petit écran */
+    .user-profile-btn {
+        min-width: 100px;
+        padding: 6px 10px;
+    }
+    
+    .user-name-small {
+        max-width: 50px;
+        font-size: 0.75rem;
+    }
+    
+    .user-avatar-small {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+    }
+    
+    .dropdown-arrow {
+        font-size: 0.7rem;
+    }
 }
 
 /* Animations supplémentaires */
@@ -839,6 +1126,28 @@ body {
     }
     100% {
         transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
         opacity: 1;
     }
 }
@@ -857,3 +1166,135 @@ body {
 .login-button { animation-delay: 0.4s; }
 .login-footer { animation-delay: 0.5s; }
 .security-stats { animation-delay: 0.6s; }
+
+.user-profile-btn {
+    animation: slideInFromRight 0.5s ease-out;
+}
+
+.user-menu {
+    animation: scaleIn 0.3s ease-out;
+}
+
+/* États spéciaux */
+.user-profile-btn.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.user-profile-btn.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Effets de hover améliorés */
+.login-button:not(:disabled):hover {
+    animation: buttonPulse 0.3s ease-out;
+}
+
+@keyframes buttonPulse {
+    0% { transform: translateY(-3px) scale(1); }
+    50% { transform: translateY(-3px) scale(1.05); }
+    100% { transform: translateY(-3px) scale(1); }
+}
+
+.user-profile-btn:hover .user-avatar-small {
+    animation: avatarSpin 0.6s ease-out;
+}
+
+@keyframes avatarSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Focus amélioré pour l'accessibilité */
+.input-container input:focus,
+.login-button:focus,
+.user-profile-btn:focus,
+.menu-action:focus {
+    outline: 2px solid var(--secondary);
+    outline-offset: 2px;
+}
+
+/* Thème sombre par défaut avec option de thème clair */
+body.light-theme {
+    --bg-dark: #f5f5f5;
+    --bg-card: #ffffff;
+    --text-light: #333333;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(196, 100, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 255, 213, 0.05) 0%, transparent 50%),
+        linear-gradient(135deg, var(--bg-dark), var(--bg-card));
+}
+
+.light-theme .login-container,
+.light-theme .header,
+.light-theme .user-menu {
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.light-theme .input-container input {
+    background: rgba(255, 255, 255, 0.8);
+    color: #333333;
+}
+
+/* Indicateurs de statut */
+.status-indicator {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 2px solid var(--bg-card);
+}
+
+.status-indicator.online {
+    background: #00ff00;
+    box-shadow: 0 0 6px rgba(0, 255, 0, 0.6);
+}
+
+.status-indicator.away {
+    background: #ffa500;
+    box-shadow: 0 0 6px rgba(255, 165, 0, 0.6);
+}
+
+.status-indicator.offline {
+    background: #666666;
+}
+
+/* Améliorations pour le contraste et la lisibilité */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+@media (prefers-contrast: high) {
+    :root {
+        --border-glow: rgba(196, 100, 255, 0.8);
+        --shadow-glow: 0 8px 32px rgba(196, 100, 255, 0.3);
+    }
+    
+    .input-container input,
+    .login-button,
+    .user-profile-btn {
+        border-width: 3px;
+    }
+}
