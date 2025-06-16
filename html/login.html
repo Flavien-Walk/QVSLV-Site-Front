@@ -122,7 +122,7 @@
     </div>
 
     <script>
-        // Configuration API
+        // Configuration API CORRIGÉE
         const API_BASE_URL = window.location.hostname === 'localhost' 
             ? 'http://localhost:3000/api' 
             : 'https://qvslv-site.onrender.com/api';
@@ -192,7 +192,6 @@
 
             // Gestion du formulaire
             const loginForm = document.getElementById('loginForm');
-            const loginButton = document.getElementById('loginButton');
 
             loginForm?.addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -207,7 +206,7 @@
                     return;
                 }
 
-                // Désactiver le bouton pendant la requête
+                const loginButton = document.getElementById('loginButton');
                 loginButton.disabled = true;
                 loginButton.querySelector('.button-text').textContent = 'Authentification...';
 
@@ -228,7 +227,7 @@
                         throw new Error(result.error || 'Erreur de connexion');
                     }
 
-                    // Stocker le token
+                    // Stocker le token selon le choix de l'utilisateur
                     if (remember) {
                         localStorage.setItem('qvslv_token', result.token);
                         localStorage.setItem('qvslv_user', JSON.stringify(result.user));
@@ -239,9 +238,10 @@
 
                     showAlert(`Bienvenue ${result.user.username} ! Redirection...`, 'success');
                     
+                    // Redirection vers l'index après 1.5 secondes
                     setTimeout(() => {
-                        window.location.href = '/';
-                    }, 2000);
+                        window.location.href = '/index.html';
+                    }, 1500);
 
                 } catch (error) {
                     console.error('Erreur de connexion:', error);
@@ -260,7 +260,7 @@
                     if (isValid) {
                         showAlert('Vous êtes déjà connecté ! Redirection...', 'info');
                         setTimeout(() => {
-                            window.location.href = '/';
+                            window.location.href = '/index.html';
                         }, 1500);
                     }
                 });
@@ -277,6 +277,7 @@
                 });
                 return response.ok;
             } catch (error) {
+                console.error('Erreur vérification token:', error);
                 return false;
             }
         }
