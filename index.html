@@ -515,7 +515,83 @@
     <!-- Notifications -->
     <div class="notification-container" id="notificationContainer"></div>
 
-    <!-- Scripts -->
-    <script src="/script/particules.js"></script>   
+    <!-- Scripts mis à jour pour l'authentification -->
+    
+    <!-- Système d'alertes -->
+    <script src="/script/alerts.js"></script>
+    
+    <!-- Gestionnaire d'authentification -->
+    <script src="/script/auth-manager.js"></script>
+    
+    <!-- Particules d'arrière-plan -->
+    <script src="/script/particules.js"></script>
+    
+    <!-- Script principal -->
+    <script src="/script/main.js"></script>
+    
+    <!-- CSS pour le profil utilisateur -->
+    <link rel="stylesheet" href="/styles/user-profile.css">
+    
+    <!-- Script d'initialisation pour la compatibilité -->
+    <script>
+        // Vérification de compatibilité et initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            // Vérifier si tous les scripts sont chargés
+            const requiredClasses = ['AuthManager'];
+            const requiredFunctions = ['showAlert'];
+            
+            let allLoaded = true;
+            
+            requiredClasses.forEach(className => {
+                if (typeof window[className] === 'undefined') {
+                    console.warn(`Classe ${className} non trouvée`);
+                    allLoaded = false;
+                }
+            });
+            
+            requiredFunctions.forEach(funcName => {
+                if (typeof window[funcName] === 'undefined') {
+                    console.warn(`Fonction ${funcName} non trouvée`);
+                    allLoaded = false;
+                }
+            });
+            
+            if (allLoaded) {
+                console.log('✅ Tous les scripts QVSLV sont chargés correctement');
+                
+                // Initialiser l'authentification si pas déjà fait
+                if (!window.authManager && typeof AuthManager !== 'undefined') {
+                    window.authManager = new AuthManager();
+                }
+                
+                // Message de bienvenue pour le développement
+                if (window.location.hostname === 'localhost') {
+                    setTimeout(() => {
+                        if (window.showAlert) {
+                            window.showAlert('🔧 Mode développement activé', 'info', { duration: 2000 });
+                        }
+                    }, 1000);
+                }
+            } else {
+                console.error('❌ Certains scripts QVSLV ne sont pas chargés correctement');
+            }
+        });
+        
+        // Gestionnaire d'erreurs global
+        window.addEventListener('error', (e) => {
+            console.error('Erreur JavaScript:', e.error);
+            if (window.showAlert && window.location.hostname === 'localhost') {
+                window.showAlert(`Erreur: ${e.message}`, 'error', { duration: 5000 });
+            }
+        });
+        
+        // Gestionnaire pour les promesses rejetées
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('Promesse rejetée:', e.reason);
+            if (window.showAlert && window.location.hostname === 'localhost') {
+                window.showAlert('Erreur de connexion réseau', 'error');
+            }
+        });
+    </script>   
 </body>
 </html>
