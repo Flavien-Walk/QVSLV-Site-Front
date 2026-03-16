@@ -16,14 +16,17 @@ const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || '')
 
 app.use(cors({
   origin: (origin, cb) => {
-    if (!origin) return cb(null, true); // mobile / curl
+    if (!origin) return cb(null, true);
     const allowed = [
       'http://localhost:5173',
       'http://localhost:3001',
       ...ALLOWED_ORIGINS,
     ];
-    const isAllowed = allowed.includes(origin) || /\.vercel\.app$/.test(origin);
-    cb(isAllowed ? null : new Error('CORS: origine non autorisée'), isAllowed);
+    if (allowed.includes(origin) || /\.vercel\.app$/.test(origin)) {
+      cb(null, true);
+    } else {
+      cb(new Error('CORS: origine non autorisée'));
+    }
   },
   credentials: true,
 }));
