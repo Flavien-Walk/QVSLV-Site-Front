@@ -9,14 +9,22 @@ const app = express();
 connectDB();
 
 // Middlewares
+const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || '')
+  .split(',')
+  .map((o) => o.trim())
+  .filter(Boolean);
+
 app.use(cors({
-  origin: [
-    'http://localhost:5500',
-    'http://127.0.0.1:5500',
-    'http://localhost:3001',
-    'https://qvslv-site-front.vercel.app',
-    /\.vercel\.app$/,
-  ],
+  origin: (origin, cb) => {
+    if (!origin) return cb(null, true); // mobile / curl
+    const allowed = [
+      'http://localhost:5173',
+      'http://localhost:3001',
+      ...ALLOWED_ORIGINS,
+    ];
+    const isAllowed = allowed.includes(origin) || /\.vercel\.app$/.test(origin);
+    cb(isAllowed ? null : new Error('CORS: origine non autorisée'), isAllowed);
+  },
   credentials: true,
 }));
 app.use(express.json({ limit: '10mb' }));
@@ -24,6 +32,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/content', require('./routes/content'));
+app.use('/api/messages', require('./routes/messages'));
 
 // Health check
 app.get('/api/health', (req, res) => {
