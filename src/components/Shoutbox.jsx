@@ -13,7 +13,8 @@ export default function Shoutbox() {
   const [text, setText] = useState('')
   const [sending, setSending] = useState(false)
   const [apiError, setApiError] = useState(false)
-  const bottomRef = useRef(null)
+  // Ref sur le CONTAINER de messages (pas sur un élément en bas)
+  const messagesContainerRef = useRef(null)
 
   const load = async () => {
     try {
@@ -31,8 +32,10 @@ export default function Shoutbox() {
     return () => clearInterval(interval)
   }, [])
 
+  // Scroll interne au container shoutbox — ne touche JAMAIS au viewport global
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    const el = messagesContainerRef.current
+    if (el) el.scrollTop = el.scrollHeight
   }, [messages])
 
   const send = async (e) => {
@@ -63,7 +66,8 @@ export default function Shoutbox() {
         </div>
       </div>
 
-      <div className="shoutbox__messages">
+      {/* ref sur le DIV scrollable, plus de bottomRef */}
+      <div className="shoutbox__messages" ref={messagesContainerRef}>
         {apiError ? (
           <div className="shoutbox__empty" style={{ color: 'var(--text-muted)', fontStyle: 'normal', fontSize: '0.75rem' }}>
             Discussion temporairement indisponible.
@@ -82,7 +86,6 @@ export default function Shoutbox() {
             )
           })
         )}
-        <div ref={bottomRef} />
       </div>
 
       {user ? (

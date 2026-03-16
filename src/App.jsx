@@ -9,6 +9,8 @@ import Dossiers from './pages/Dossiers'
 import Archives from './pages/Archives'
 import Theories from './pages/Theories'
 import Ressources from './pages/Ressources'
+import CreateTopic from './pages/CreateTopic'
+import TopicDetail from './pages/TopicDetail'
 
 export default function App() {
   return (
@@ -34,6 +36,8 @@ export default function App() {
           <Route path="/archives" element={<Archives />} />
           <Route path="/theories" element={<Theories />} />
           <Route path="/ressources" element={<Ressources />} />
+          <Route path="/topics/new" element={<CreateTopic />} />
+          <Route path="/topics/:id" element={<TopicDetail />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

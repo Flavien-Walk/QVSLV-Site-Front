@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { getContentCounts } from '../services/api'
 import Shoutbox from '../components/Shoutbox'
@@ -71,6 +71,15 @@ export default function Home() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </form>
+        {user ? (
+          <Link to="/topics/new" className="btn-primary" style={{ whiteSpace: 'nowrap', fontSize: '0.7rem', padding: '0.5rem 1.1rem' }}>
+            + Créer un topic
+          </Link>
+        ) : (
+          <Link to="/topics/new" className="btn-outline" style={{ whiteSpace: 'nowrap', fontSize: '0.7rem', padding: '0.5rem 1.1rem' }}>
+            + Créer un topic
+          </Link>
+        )}
       </div>
 
       <div className="main-grid">
