@@ -1,5 +1,4 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { useAuth } from './context/AuthContext'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Particles from './components/Particles'
@@ -10,12 +9,6 @@ import Dossiers from './pages/Dossiers'
 import Archives from './pages/Archives'
 import Theories from './pages/Theories'
 import Ressources from './pages/Ressources'
-
-function PrivateRoute({ children }) {
-  const { user, loading } = useAuth()
-  if (loading) return null
-  return user ? children : <Navigate to="/login" replace />
-}
 
 export default function App() {
   return (

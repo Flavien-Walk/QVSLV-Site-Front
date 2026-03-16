@@ -33,6 +33,7 @@ export const getMe = () => api.get('/auth/me')
 // Content
 export const getContent = (params) => api.get('/content', { params })
 export const getContentById = (id) => api.get(`/content/${id}`)
+export const getContentCounts = () => api.get('/content/counts')
 
 // Messages (shoutbox)
 export const getMessages = () => api.get('/messages')

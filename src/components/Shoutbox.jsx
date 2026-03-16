@@ -12,14 +12,17 @@ export default function Shoutbox() {
   const [messages, setMessages] = useState([])
   const [text, setText] = useState('')
   const [sending, setSending] = useState(false)
+  const [apiError, setApiError] = useState(false)
   const bottomRef = useRef(null)
 
   const load = async () => {
     try {
       const res = await getMessages()
+      // Le backend renvoie tri ascendant (createdAt: 1) — ordre chronologique direct
       setMessages(res.data.messages || [])
+      setApiError(false)
     } catch {
-      // silently fail - backend may not be live yet
+      setApiError(true)
     }
   }
 
@@ -42,7 +45,7 @@ export default function Shoutbox() {
       setText('')
       await load()
     } catch {
-      // noop
+      // L'erreur est visible via apiError si nécessaire
     } finally {
       setSending(false)
     }
@@ -55,13 +58,17 @@ export default function Shoutbox() {
       <div className="shoutbox__header">
         <span className="shoutbox__title">Discussion</span>
         <div className="shoutbox__status">
-          <div className="status-dot" />
-          <span>En direct</span>
+          <div className="status-dot" style={{ background: apiError ? 'var(--error)' : 'var(--success)' }} />
+          <span>{apiError ? 'Hors ligne' : 'En direct'}</span>
         </div>
       </div>
 
       <div className="shoutbox__messages">
-        {messages.length === 0 ? (
+        {apiError ? (
+          <div className="shoutbox__empty" style={{ color: 'var(--text-muted)', fontStyle: 'normal', fontSize: '0.75rem' }}>
+            Discussion temporairement indisponible.
+          </div>
+        ) : messages.length === 0 ? (
           <div className="shoutbox__empty">Aucun message pour l'instant. Soyez le premier.</div>
         ) : (
           messages.map((msg) => (
@@ -88,8 +95,9 @@ export default function Shoutbox() {
             onChange={(e) => setText(e.target.value)}
             placeholder="Votre message…"
             maxLength={300}
+            disabled={apiError}
           />
-          <button className="shoutbox__send" type="submit" disabled={sending || !text.trim()}>
+          <button className="shoutbox__send" type="submit" disabled={sending || !text.trim() || apiError}>
             {sending ? '…' : 'Envoyer'}
           </button>
         </form>

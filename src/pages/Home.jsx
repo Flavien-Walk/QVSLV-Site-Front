@@ -1,23 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { getContentCounts } from '../services/api'
 import Shoutbox from '../components/Shoutbox'
 import Sidebar from '../components/Sidebar'
 import CategoryCard, { STATIC_CATEGORIES } from '../components/CategoryCard'
-
-const FILTERS = [
-  { key: 'all', label: 'Tout' },
-  { key: 'dossier', label: 'Dossiers' },
-  { key: 'archive', label: 'Archives' },
-  { key: 'theorie', label: 'Théories' },
-  { key: 'ressource', label: 'Ressources' },
-]
 
 export default function Home() {
   const { user } = useAuth()
   const navigate = useNavigate()
   const [search, setSearch] = useState('')
-  const [filter, setFilter] = useState('all')
+  const [counts, setCounts] = useState(null)
+
+  useEffect(() => {
+    getContentCounts()
+      .then((res) => setCounts(res.data.counts || {}))
+      .catch(() => setCounts({}))
+  }, [])
 
   const handleSearch = (e) => {
     e.preventDefault()
@@ -62,17 +61,6 @@ export default function Home() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </form>
-        <div className="toolbar-filters">
-          {FILTERS.map((f) => (
-            <button
-              key={f.key}
-              className={`filter-btn${filter === f.key ? ' filter-btn--active' : ''}`}
-              onClick={() => setFilter(f.key)}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
       </div>
 
       <div className="main-grid">
@@ -80,7 +68,11 @@ export default function Home() {
           <Shoutbox />
           <div className="categories-grid">
             {STATIC_CATEGORIES.map((cat) => (
-              <CategoryCard key={cat.key} category={cat} />
+              <CategoryCard
+                key={cat.key}
+                category={cat}
+                count={counts === null ? undefined : (counts[cat.key] ?? 0)}
+              />
             ))}
           </div>
         </div>

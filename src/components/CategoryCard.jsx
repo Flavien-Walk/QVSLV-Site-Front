@@ -57,21 +57,22 @@ const STATIC_CATEGORIES = [
 export default function CategoryCard({ category, count }) {
   const navigate = useNavigate()
   const meta = CATEGORY_META[category.key] || CATEGORY_META.archives
-  const c = { ...category, count: count ?? category.count }
+
+  // count = undefined → chargement en cours, number → valeur réelle
+  const countLabel = count === undefined
+    ? '…'
+    : `${count.toLocaleString('fr-FR')} document${count !== 1 ? 's' : ''}`
 
   return (
-    <div className="category-card" onClick={() => navigate(meta.route + `?category=${c.key}`)}>
+    <div className="category-card" onClick={() => navigate(`${meta.route}?category=${category.key}`)}>
       <div className="category-card__header">
         <div className="category-card__icon">{meta.icon}</div>
         <span className={`category-card__badge ${meta.badgeClass}`}>{meta.badge}</span>
       </div>
-      <div className="category-card__title">{c.title}</div>
-      <div className="category-card__desc">{c.desc}</div>
+      <div className="category-card__title">{category.title}</div>
+      <div className="category-card__desc">{category.desc}</div>
       <div className="category-card__meta">
-        <span className="category-card__meta-count">
-          {c.count !== null ? `${c.count.toLocaleString()} documents` : 'Chargement…'}
-        </span>
-        <span>{c.lastUpdate}</span>
+        <span className="category-card__meta-count">{countLabel}</span>
       </div>
     </div>
   )

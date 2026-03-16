@@ -1,20 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
-const STATS = [
-  { value: '8 412', label: 'Documents' },
-  { value: '1 247', label: 'Membres' },
-  { value: '6', label: 'Catégories' },
-  { value: '99', label: 'En ligne' },
-]
-
-const ACTIVITY = [
-  { time: '2 min', action: 'Nouveau dossier ajouté dans Archives Historiques' },
-  { time: '14 min', action: 'Discussion ouverte dans Symbolisme' },
-  { time: '1 h', action: 'Mise à jour — Technologies Oubliées' },
-  { time: '3 h', action: 'Nouveau membre vérifié' },
-]
-
 export default function Sidebar() {
   const { user } = useAuth()
 
@@ -60,30 +46,9 @@ export default function Sidebar() {
           <span className="sidebar-block__title">Statistiques</span>
         </div>
         <div className="sidebar-block__body">
-          <div className="stats-grid">
-            {STATS.map((s) => (
-              <div key={s.label} className="stat-item">
-                <div className="stat-item__value">{s.value}</div>
-                <div className="stat-item__label">{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="sidebar-block">
-        <div className="sidebar-block__header">
-          <span className="sidebar-block__title">Activité récente</span>
-        </div>
-        <div className="sidebar-block__body">
-          <div className="activity-list">
-            {ACTIVITY.map((a, i) => (
-              <div key={i} className="activity-item">
-                <span className="activity-item__time">{a.time}</span>
-                <span>{a.action}</span>
-              </div>
-            ))}
-          </div>
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+            Statistiques bientôt disponibles.
+          </p>
         </div>
       </div>
     </aside>

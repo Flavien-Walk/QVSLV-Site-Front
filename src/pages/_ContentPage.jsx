@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { getContent } from '../services/api'
 import ContentCard from '../components/ContentCard'
@@ -16,37 +16,61 @@ const CATEGORIES = [
 
 export default function ContentPage({ type, title, description, icon }) {
   const [searchParams, setSearchParams] = useSearchParams()
+
+  // URL est la source de vérité — les états locaux en dérivent
+  const search = searchParams.get('search') || ''
+  const category = searchParams.get('category') || 'all'
+
+  const [inputValue, setInputValue] = useState(search)
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [search, setSearch] = useState(searchParams.get('search') || '')
-  const [category, setCategory] = useState(searchParams.get('category') || 'all')
 
-  const load = useCallback(async () => {
+  // Sync inputValue si l'URL change (navigation externe)
+  useEffect(() => {
+    setInputValue(searchParams.get('search') || '')
+  }, [searchParams])
+
+  // Charger les contenus à chaque changement de params URL
+  useEffect(() => {
+    let cancelled = false
     setLoading(true)
     setError('')
-    try {
-      const params = { type }
-      if (category !== 'all') params.category = category
-      if (search.trim()) params.search = search.trim()
-      const res = await getContent(params)
-      setItems(res.data.items || res.data.content || [])
-    } catch {
-      setError('Impossible de charger les contenus.')
-      setItems([])
-    } finally {
-      setLoading(false)
-    }
+
+    const params = { type }
+    if (category !== 'all') params.category = category
+    if (search.trim()) params.search = search.trim()
+
+    getContent(params)
+      .then((res) => {
+        if (!cancelled) setItems(res.data.items || [])
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setError('Impossible de charger les contenus. Vérifiez votre connexion.')
+          setItems([])
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+
+    return () => { cancelled = true }
   }, [type, category, search])
 
-  useEffect(() => { load() }, [load])
-
-  const handleSearch = (e) => {
+  const handleSearchSubmit = (e) => {
     e.preventDefault()
-    const params = {}
-    if (search.trim()) params.search = search
-    if (category !== 'all') params.category = category
-    setSearchParams(params)
+    const next = {}
+    if (inputValue.trim()) next.search = inputValue.trim()
+    if (category !== 'all') next.category = category
+    setSearchParams(next)
+  }
+
+  const handleCategoryChange = (key) => {
+    const next = {}
+    if (search.trim()) next.search = search
+    if (key !== 'all') next.category = key
+    setSearchParams(next)
   }
 
   return (
@@ -65,13 +89,13 @@ export default function ContentPage({ type, title, description, icon }) {
       <div className="main-grid">
         <div>
           <div className="toolbar" style={{ marginBottom: '1.25rem' }}>
-            <form className="search-wrapper" onSubmit={handleSearch}>
+            <form className="search-wrapper" onSubmit={handleSearchSubmit}>
               <span className="search-icon">⌕</span>
               <input
                 className="search-input"
                 placeholder={`Rechercher dans ${title.toLowerCase()}…`}
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
               />
             </form>
           </div>
@@ -81,7 +105,7 @@ export default function ContentPage({ type, title, description, icon }) {
               <button
                 key={c.key}
                 className={`filter-btn${category === c.key ? ' filter-btn--active' : ''}`}
-                onClick={() => setCategory(c.key)}
+                onClick={() => handleCategoryChange(c.key)}
               >
                 {c.label}
               </button>
