@@ -36,7 +36,10 @@ export default function Header() {
     <header className="header">
       <Link to="/" className="header__logo">
         <img src="/assets/accueil/logo.png" alt="QVSLV" onError={(e) => { e.target.style.display = 'none' }} />
-        <span className="header__logo-text">QVSLV</span>
+        <div>
+          <span className="header__logo-text glitch" data-text="QVSLV">QVSLV</span>
+          <div className="header__logo-tagline">Archives &amp; Documentation</div>
+        </div>
       </Link>
 
       <nav className="header__nav">

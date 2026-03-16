@@ -19,6 +19,10 @@ export default function App() {
         <div className="frame-corner frame-corner--tr" />
         <div className="frame-corner frame-corner--bl" />
         <div className="frame-corner frame-corner--br" />
+        <div className="frame-border frame-border--top" />
+        <div className="frame-border frame-border--bottom" />
+        <div className="frame-border frame-border--left" />
+        <div className="frame-border frame-border--right" />
       </div>
       <Header />
       <main className="layout">

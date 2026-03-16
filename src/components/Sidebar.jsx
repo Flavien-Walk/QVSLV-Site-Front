@@ -43,12 +43,27 @@ export default function Sidebar() {
 
       <div className="sidebar-block">
         <div className="sidebar-block__header">
-          <span className="sidebar-block__title">Statistiques</span>
+          <span className="sidebar-block__title">Système</span>
         </div>
         <div className="sidebar-block__body">
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
-            Statistiques bientôt disponibles.
-          </p>
+          <div className="stats-grid">
+            <div className="stat-item">
+              <span className="stat-item__value">6</span>
+              <span className="stat-item__label">Catégories</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-item__value">24/7</span>
+              <span className="stat-item__label">En ligne</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-item__value">🔓</span>
+              <span className="stat-item__label">Ouvert</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-item__value">FR</span>
+              <span className="stat-item__label">Langue</span>
+            </div>
+          </div>
         </div>
       </div>
     </aside>

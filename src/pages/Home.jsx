@@ -51,6 +51,16 @@ export default function Home() {
         </div>
       )}
 
+      <div className="content-header">
+        <h2 className="content-header__title">Base de Données Décentralisée</h2>
+        <div className="content-header__stats">
+          <span className="content-header__stat">⚡ Mise à jour en temps réel</span>
+          <span className="content-header__stat">
+            {counts === null ? '…' : `${Object.values(counts).reduce((a, b) => a + b, 0).toLocaleString('fr-FR')} documents`}
+          </span>
+        </div>
+      </div>
+
       <div className="toolbar">
         <form className="search-wrapper" onSubmit={handleSearch}>
           <span className="search-icon">⌕</span>

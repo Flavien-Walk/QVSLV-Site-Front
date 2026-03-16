@@ -66,7 +66,7 @@ export default function CategoryCard({ category, count }) {
   return (
     <div className="category-card" onClick={() => navigate(`${meta.route}?category=${category.key}`)}>
       <div className="category-card__header">
-        <div className="category-card__icon">{meta.icon}</div>
+        <span className="category-card__icon">{meta.icon}</span>
         <span className={`category-card__badge ${meta.badgeClass}`}>{meta.badge}</span>
       </div>
       <div className="category-card__title">{category.title}</div>

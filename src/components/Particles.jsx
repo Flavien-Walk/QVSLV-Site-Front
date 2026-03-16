@@ -11,19 +11,20 @@ export default function Particles() {
     const create = () => {
       const el = document.createElement('div')
       el.className = 'particle'
-      const size = Math.random() * 3 + 1
+      const rand = Math.random()
+      const size = rand < 0.5 ? 3 : rand < 0.75 ? 2 : 4
       const x = Math.random() * 100
-      const dur = Math.random() * 12 + 8
-      const drift = (Math.random() - 0.5) * 80
+      const dur = rand < 0.5 ? (Math.random() * 4 + 8) : rand < 0.75 ? (Math.random() * 2 + 10) : (Math.random() * 2 + 6)
+      const isSecondary = Math.random() > 0.5
       el.style.cssText = `
         left: ${x}%;
-        bottom: -10px;
+        top: -10px;
         width: ${size}px;
         height: ${size}px;
-        background: ${Math.random() > 0.5 ? 'rgba(194,100,255,0.6)' : 'rgba(0,255,213,0.4)'};
+        background: ${isSecondary ? 'var(--secondary)' : 'var(--primary)'};
+        box-shadow: 0 0 8px ${isSecondary ? 'var(--secondary)' : 'var(--primary)'};
         animation-duration: ${dur}s;
         animation-delay: ${Math.random() * 5}s;
-        --drift: ${drift}px;
       `
       container.appendChild(el)
       particles.push(el)
@@ -34,8 +35,8 @@ export default function Particles() {
     }
 
     // Initial batch
-    for (let i = 0; i < 40; i++) create()
-    const interval = setInterval(create, 800)
+    for (let i = 0; i < 50; i++) create()
+    const interval = setInterval(create, 600)
     return () => {
       clearInterval(interval)
       particles.forEach((p) => p.remove())
