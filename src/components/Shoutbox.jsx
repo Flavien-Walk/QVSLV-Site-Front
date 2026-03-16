@@ -18,7 +18,6 @@ export default function Shoutbox() {
   const load = async () => {
     try {
       const res = await getMessages()
-      // Le backend renvoie tri ascendant (createdAt: 1) — ordre chronologique direct
       setMessages(res.data.messages || [])
       setApiError(false)
     } catch {
@@ -45,21 +44,22 @@ export default function Shoutbox() {
       setText('')
       await load()
     } catch {
-      // L'erreur est visible via apiError si nécessaire
+      // silencieux
     } finally {
       setSending(false)
     }
   }
 
-  const initials = (username) => username?.slice(0, 2).toUpperCase() || '??'
-
   return (
     <div className="shoutbox">
       <div className="shoutbox__header">
-        <span className="shoutbox__title">Discussion</span>
+        <span className="shoutbox__title">Terminal de Discussion</span>
         <div className="shoutbox__status">
           <div className="status-dot" style={{ background: apiError ? 'var(--error)' : 'var(--success)' }} />
           <span>{apiError ? 'Hors ligne' : 'En direct'}</span>
+          {!apiError && messages.length > 0 && (
+            <span className="shoutbox__count">{messages.length} message{messages.length > 1 ? 's' : ''}</span>
+          )}
         </div>
       </div>
 
@@ -69,20 +69,18 @@ export default function Shoutbox() {
             Discussion temporairement indisponible.
           </div>
         ) : messages.length === 0 ? (
-          <div className="shoutbox__empty">Aucun message pour l'instant. Soyez le premier.</div>
+          <div className="shoutbox__empty">Aucun message pour l'instant. Soyez le premier à écrire.</div>
         ) : (
-          messages.map((msg) => (
-            <div key={msg._id || msg.id} className="shoutbox__msg">
-              <div className="shoutbox__msg-avatar">{initials(msg.user?.username || msg.username)}</div>
-              <div className="shoutbox__msg-body">
-                <div className="shoutbox__msg-header">
-                  <span className="shoutbox__msg-user">{msg.user?.username || msg.username}</span>
-                  <span className="shoutbox__msg-time">{formatTime(msg.createdAt)}</span>
-                </div>
-                <div className="shoutbox__msg-text">{msg.text}</div>
+          messages.map((msg) => {
+            const username = msg.user?.username || msg.username || '???'
+            return (
+              <div key={msg._id || msg.id} className="shoutbox__msg">
+                <span className="shoutbox__msg-user">{username}</span>
+                <span className="shoutbox__msg-time">{formatTime(msg.createdAt)}</span>
+                <span className="shoutbox__msg-text">{msg.text}</span>
               </div>
-            </div>
-          ))
+            )
+          })
         )}
         <div ref={bottomRef} />
       </div>
