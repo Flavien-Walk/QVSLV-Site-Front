@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom'
+
 const CATEGORY_LABELS = {
   archives: 'Archives',
   ancient: 'Civilisations',
@@ -19,15 +21,21 @@ function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
-export default function ContentCard({ item, onClick }) {
+export default function ContentCard({ item }) {
+  const navigate = useNavigate()
+
   return (
-    <div className="content-card" onClick={() => onClick?.(item)}>
+    <div
+      className="content-card"
+      onClick={() => navigate(`/topics/${item._id}`)}
+      style={{ cursor: 'pointer' }}
+    >
       <div className="content-card__header">
         <div className="content-card__category-dot" />
         <div style={{ flex: 1 }}>
           <div className="content-card__title">{item.title}</div>
           <div className="content-card__excerpt">
-            {item.description || item.excerpt || 'Aucune description disponible.'}
+            {item.description || item.excerpt || item.content?.slice(0, 160) || 'Aucune description disponible.'}
           </div>
         </div>
       </div>
@@ -45,7 +53,7 @@ export default function ContentCard({ item, onClick }) {
           <span style={{ marginLeft: 'auto' }}>{formatDate(item.createdAt)}</span>
         )}
         {item.views != null && (
-          <span>{item.views} vues</span>
+          <span>{item.views} vue{item.views !== 1 ? 's' : ''}</span>
         )}
       </div>
     </div>

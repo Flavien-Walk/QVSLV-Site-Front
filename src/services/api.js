@@ -11,6 +11,10 @@ api.interceptors.request.use((config) => {
   return config
 })
 
+// Callback appelé sur 401 — branché par AuthContext pour reset le state React
+let _onUnauthorized = null
+export function setUnauthorizedHandler(fn) { _onUnauthorized = fn }
+
 // Handle 401
 api.interceptors.response.use(
   (res) => res,
@@ -20,6 +24,7 @@ api.interceptors.response.use(
       localStorage.removeItem('qvslv_user')
       sessionStorage.removeItem('qvslv_token')
       sessionStorage.removeItem('qvslv_user')
+      _onUnauthorized?.()
     }
     return Promise.reject(err)
   }
