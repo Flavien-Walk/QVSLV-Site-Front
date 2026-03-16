@@ -27,7 +27,7 @@ const STATIC_CATEGORIES = [
   {
     key: 'social',
     title: 'Manipulation Sociale',
-    desc: 'Analyses comportementales, études de propagande et mécanique de l'influence.',
+    desc: "Analyses comportementales, études de propagande et mécanique de l'influence.",
     count: null,
     lastUpdate: 'Récemment mis à jour',
   },
